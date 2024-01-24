@@ -1,9 +1,12 @@
-﻿namespace FolketsHusApp {
+﻿using FolketsHusApp.ViewModel;
+
+namespace FolketsHusApp {
     public partial class App : Application {
-        public App() {
+        public App(LoginViewModel vm) {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            MainPage = new Pages.LoginPage(vm);
+
         }
     }
 }

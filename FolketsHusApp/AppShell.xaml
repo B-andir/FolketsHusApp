@@ -1,15 +1,31 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Shell
     x:Class="FolketsHusApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FolketsHusApp"
-    Shell.FlyoutBehavior="Disabled"
+    xmlns:views="clr-namespace:FolketsHusApp.Pages"
+    FlyoutHeaderBehavior="CollapseOnScroll"
     Title="FolketsHusApp">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <FlyoutItem Title="Home" Icon="home.svg" Route="HomePage">
+        <ShellContent ContentTemplate="{DataTemplate views:HomePage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Bio Rosen" Icon="film.svg">
+        <ShellContent Title="Quick Add" Icon="bolt.svg" Route="BioRosenQuickPage" ContentTemplate="{DataTemplate views:BioRosenQuickPage}"/>
+        <ShellContent Title="Film" Icon="popcorn.svg" Route="BioRosenFilmPage" ContentTemplate="{DataTemplate views:BioRosenFilmPage}"/>
+        <ShellContent Title="Live" Icon="glass_champagne.svg" Route="BioRosenLivePage" ContentTemplate="{DataTemplate views:BioRosenLivePage}"/>
+        <ShellContent Title="Kontrast" Icon="video_camera.svg" Route="BioRosenKontrastPage" ContentTemplate="{DataTemplate views:BioRosenKontrastPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Unes" Icon="restaurant.svg" Route="UnesPage">
+        <ShellContent ContentTemplate="{DataTemplate views:UnesPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Evenemang" Icon="calendar_star.svg" Route="EvenemangPage">
+        <ShellContent ContentTemplate="{DataTemplate views:EvenemangPage}"/>
+    </FlyoutItem>
 
 </Shell>
+    
