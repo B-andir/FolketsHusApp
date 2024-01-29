@@ -64,7 +64,6 @@ public partial class LoginViewModel : ObservableObject {
             HttpResponseMessage response = await httpClient.PostAsync(apiUrl, content);
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            //JObject responseJson = JObject.Parse(responseContent[0].ToString());
             JObject responseJson = JObject.Parse(responseContent);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK) {
