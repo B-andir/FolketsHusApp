@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text;
 using System.Xml.Serialization;
@@ -28,14 +29,16 @@ public partial class LoginViewModel : ObservableObject {
 
     IConnectivity connectivity;
     private readonly INavigationService navigationService;
+    private PreferencesStore storage;
 
     // IMPORTANT! Change "http" to "https" when deployed and SSL Certificate is created.
     // Change Url to webdomain when ready for production.
     private readonly string apiUrl = "http://10.0.2.2:5100/api/appAuth";
 
-    public LoginViewModel(IConnectivity connectivity, INavigationService navigationService) {
+    public LoginViewModel(IConnectivity connectivity, INavigationService navigationService, PreferencesStore storage) {
         this.connectivity = connectivity;
         this.navigationService = navigationService;
+        this.storage = storage;
     }
 
     [ObservableProperty]
@@ -61,14 +64,18 @@ public partial class LoginViewModel : ObservableObject {
             HttpResponseMessage response = await httpClient.PostAsync(apiUrl, content);
 
             var responseContent = await response.Content.ReadAsStringAsync();
+            JObject responseJson = JObject.Parse(responseContent);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK) {
                 Debug.WriteLine($"Request called successfully, but failed on the server, Error code: {response.StatusCode}");
                 return;
             } else {
                 Debug.WriteLine("Request successfull, should redirect");
+
+                storage.Set("accessToken", responseJson.GetValue("accessToken"));
+                storage.Set("refreshToken", responseJson.GetValue("refreshToken"));
+
                 await navigationService.GoToAsync($"//{nameof(Pages.HomePage)}");
-                return;
             }
 
         }
