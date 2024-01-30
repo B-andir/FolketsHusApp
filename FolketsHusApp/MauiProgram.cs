@@ -42,7 +42,9 @@ namespace FolketsHusApp {
                 .AddTransient<UnesViewModel>()
 
                 .AddTransient<EvenemangPage>()
-                .AddTransient<EvenemangViewModel>();
+                .AddTransient<EvenemangViewModel>()
+
+                .AddTransient<LogoutSubPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();
