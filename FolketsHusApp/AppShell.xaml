@@ -4,27 +4,39 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FolketsHusApp"
-    xmlns:views="clr-namespace:FolketsHusApp.Pages"
+    xmlns:pages="clr-namespace:FolketsHusApp.Pages"
     FlyoutHeaderBehavior="CollapseOnScroll"
     Title="FolketsHusApp">
 
     <FlyoutItem Title="Home" Icon="home.svg" Route="HomePage">
-        <ShellContent ContentTemplate="{DataTemplate views:HomePage}"/>
+        <ShellContent ContentTemplate="{DataTemplate pages:HomePage}"/>
     </FlyoutItem>
 
     <FlyoutItem Title="Bio Rosen" Icon="film.svg">
-        <ShellContent Title="Quick Add" Icon="bolt.svg" Route="BioRosenQuickPage" ContentTemplate="{DataTemplate views:BioRosenQuickPage}"/>
-        <ShellContent Title="Film" Icon="popcorn.svg" Route="BioRosenFilmPage" ContentTemplate="{DataTemplate views:BioRosenFilmPage}"/>
-        <ShellContent Title="Live" Icon="glass_champagne.svg" Route="BioRosenLivePage" ContentTemplate="{DataTemplate views:BioRosenLivePage}"/>
-        <ShellContent Title="Kontrast" Icon="video_camera.svg" Route="BioRosenKontrastPage" ContentTemplate="{DataTemplate views:BioRosenKontrastPage}"/>
+        <ShellContent Title="Quick Add" Icon="bolt.svg" Route="BioRosenQuickPage" ContentTemplate="{DataTemplate pages:BioRosenQuickPage}"/>
+        <ShellContent Title="Film" Icon="popcorn.svg" Route="BioRosenFilmPage" ContentTemplate="{DataTemplate pages:BioRosenFilmPage}"/>
+        <ShellContent Title="Live" Icon="glass_champagne.svg" Route="BioRosenLivePage" ContentTemplate="{DataTemplate pages:BioRosenLivePage}"/>
+        <ShellContent Title="Kontrast" Icon="video_camera.svg" Route="BioRosenKontrastPage" ContentTemplate="{DataTemplate pages:BioRosenKontrastPage}"/>
     </FlyoutItem>
 
     <FlyoutItem Title="Unes" Icon="restaurant.svg" Route="UnesPage">
-        <ShellContent ContentTemplate="{DataTemplate views:UnesPage}"/>
+        <ShellContent ContentTemplate="{DataTemplate pages:UnesPage}"/>
     </FlyoutItem>
 
     <FlyoutItem Title="Evenemang" Icon="calendar_star.svg" Route="EvenemangPage">
-        <ShellContent ContentTemplate="{DataTemplate views:EvenemangPage}"/>
+        <ShellContent ContentTemplate="{DataTemplate pages:EvenemangPage}"/>
+    </FlyoutItem>
+
+    <MenuItem>
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Label HeightRequest="2" BackgroundColor="LightGray"></Label>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+
+    <FlyoutItem Title="Logout" Icon="lock.svg" Route="LogoutSubPage">
+        <ShellContent ContentTemplate="{DataTemplate pages:LogoutSubPage}"/>
     </FlyoutItem>
 
 </Shell>

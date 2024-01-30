@@ -111,6 +111,9 @@
 	  <MauiXaml Update="Pages\EvenemangPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\LogoutSubPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\UnesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
