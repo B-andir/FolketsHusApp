@@ -39,15 +39,21 @@ public class APIService : IAPIService {
     const string url = "http://10.0.2.2:5100/api";
 
     private INavigationService navigationService;
+    private IConnectivity connectivity;
 
-    public APIService(INavigationService navigationService) {
+    public APIService(INavigationService navigationService, IConnectivity connectivity) {
         this.navigationService = navigationService;
+        this.connectivity = connectivity;
     }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
     private async Task<HttpResponseMessage> sendPost(string route, StringContent body) {
         var httpClient = new HttpClient();
-        return httpClient.PostAsync(route, body).Result;
+        if (connectivity.NetworkAccess == NetworkAccess.Internet) {
+            return httpClient.PostAsync(route, body).Result;
+        } else {
+            return new HttpResponseMessage(System.Net.HttpStatusCode.NotFound);
+        }
     }
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
@@ -67,6 +73,8 @@ public class APIService : IAPIService {
 
             return true;
         } else {
+            navigationService.GoToAsync("//login");
+
             return false;
         }
     }
@@ -102,14 +110,14 @@ public class APIService : IAPIService {
         string responseContent = responseMessage.Content.ReadAsStringAsync().Result;
 
         if (iterations <= 0 && (responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized || responseMessage.StatusCode == System.Net.HttpStatusCode.BadRequest)) {
-            // Access Token was denied. Try to get a new token.
+            // Access Token was denied. Try to get a new token, then retry to call the API
             bool result = GetNewAccessToken();
 
             if (result) {
                 int i = iterations + 1;
                 return postProtected(route, body, i);
             } else {
-                return new Response(responseMessage, responseContent);
+                return new Response();
             }
 
         } else if (iterations >= 1 && responseMessage.StatusCode != System.Net.HttpStatusCode.OK) {
