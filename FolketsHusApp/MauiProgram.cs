@@ -16,7 +16,7 @@ namespace FolketsHusApp {
             builder.Services
                 .AddSingleton<IConnectivity>(Connectivity.Current)
                 .AddSingleton<INavigationService, NavigationService>()
-                .AddSingleton<PreferencesStore>()
+                .AddSingleton<IAPIService, APIService>()
 
                 .AddTransient<AppShell>()
 

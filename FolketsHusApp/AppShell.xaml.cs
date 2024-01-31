@@ -3,10 +3,7 @@
 namespace FolketsHusApp {
     public partial class AppShell : Shell {
 
-        public PreferencesStore storage;
-        public IConnectivity connectivity;
-
-        public AppShell(PreferencesStore storage, IConnectivity connectivity) {
+        public AppShell() {
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
@@ -17,9 +14,6 @@ namespace FolketsHusApp {
             Routing.RegisterRoute(nameof(UnesPage), typeof(UnesPage));
             Routing.RegisterRoute(nameof(EvenemangPage), typeof(EvenemangPage));
             Routing.RegisterRoute(nameof(LogoutSubPage), typeof(LogoutSubPage));
-
-            this.storage = storage;
-            this.connectivity = connectivity;
         }
     }
 }

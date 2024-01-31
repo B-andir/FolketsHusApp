@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace FolketsHusApp.ViewModel;
@@ -29,16 +28,12 @@ public partial class LoginViewModel : ObservableObject {
 
     IConnectivity connectivity;
     private readonly INavigationService navigationService;
-    private PreferencesStore storage;
+    private IAPIService api;
 
-    // IMPORTANT! Change "http" to "https" when deployed and SSL Certificate is created.
-    // Change Url to webdomain when ready for production.
-    private readonly string apiUrl = "http://10.0.2.2:5100/api/appAuth";
-
-    public LoginViewModel(IConnectivity connectivity, INavigationService navigationService, PreferencesStore storage) {
+    public LoginViewModel(IConnectivity connectivity, INavigationService navigationService, IAPIService api) {
         this.connectivity = connectivity;
         this.navigationService = navigationService;
-        this.storage = storage;
+        this.api = api;
     }
 
     [ObservableProperty]
@@ -57,14 +52,11 @@ public partial class LoginViewModel : ObservableObject {
             return;
         } else {
 
-            var httpClient = new HttpClient();
             var loginParams = new LoginParams { Password = EnteredPassword };
-            var content = new StringContent(JsonConvert.SerializeObject(loginParams), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await httpClient.PostAsync(apiUrl, content);
+            Response response = api.post("/appAuth", loginParams, false);
 
-            var responseContent = await response.Content.ReadAsStringAsync();
-            JObject responseJson = JObject.Parse(responseContent);
+            JObject responseJson = JObject.Parse(response.responseString);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK) {
                 Debug.WriteLine($"Request called successfully, but failed on the server, Error code: {response.StatusCode}");
@@ -72,8 +64,8 @@ public partial class LoginViewModel : ObservableObject {
             } else {
                 Debug.WriteLine("Request successfull, should redirect");
 
-                storage.Set("accessToken", responseJson.GetValue("accessToken"));
-                storage.Set("refreshToken", responseJson.GetValue("refreshToken"));
+                PreferencesStore.Set("accessToken", responseJson.GetValue("accessToken"));
+                PreferencesStore.Set("refreshToken", responseJson.GetValue("refreshToken"));
 
                 await navigationService.GoToAsync($"//{nameof(Pages.HomePage)}");
             }

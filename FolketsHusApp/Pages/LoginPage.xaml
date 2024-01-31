@@ -18,7 +18,8 @@
             <Entry
                 Placeholder="Enter Password"
                 Text="{Binding EnteredPassword}"
-                SemanticProperties.HeadingLevel="Level1"/>
+                SemanticProperties.HeadingLevel="Level1"
+                IsPassword="True"/>
 
             <Button
                 Text="Submit" 
