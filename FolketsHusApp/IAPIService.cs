@@ -23,5 +23,6 @@ public interface IAPIService {
 
     Response post(string route, object body, bool shouldRedirect = true);
     Response postProtected(string route, object body);
+    Task<bool> preloadService();
 
 }

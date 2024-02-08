@@ -130,4 +130,11 @@ public class APIService : IAPIService {
 
 
     }
+
+    public async Task<bool> preloadService() {
+
+        await Task.Delay(10);
+
+        return true;
+    }
 }
