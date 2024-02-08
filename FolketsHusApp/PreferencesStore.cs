@@ -1,21 +1,24 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FolketsHusApp;
 
-public class PreferencesStore {
+public static class PreferencesStore {
 
     /// <summary>
     /// Store an element using any kind of key (if it doesnt exist)
     /// </summary>
     /// <param name="key"></param>
     /// <param name="value"></param>
-    public void Set(string key, object value) {
+    public static void Set(string key, object? value) {
         string keyvalue = JsonConvert.SerializeObject(value);
         if (keyvalue != null && !string.IsNullOrEmpty(keyvalue)) {
             Preferences.Set(key, keyvalue);
         }
     }
 
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8603 // Possible null reference return.
 
     /// <summary>
     /// Get an element using a certain key, with type T
@@ -23,7 +26,8 @@ public class PreferencesStore {
     /// <typeparam name="T"></typeparam>
     /// <param name="key"></param>
     /// <returns></returns>
-    public T Get<T>(string key) {
+    public static T Get<T>(string key) {
+
         T unpackedValue = default;
         string keyvalue = Preferences.Get(key, string.Empty);
 
@@ -34,12 +38,26 @@ public class PreferencesStore {
         return unpackedValue;
     }
 
+    public static JToken GetJToken(string key) {
+        JToken unpackedValue = default;
+        string keyvalue = Preferences.Get(key, string.Empty);
+
+        if (keyvalue != null && !string.IsNullOrEmpty(keyvalue)) {
+            unpackedValue = JToken.Parse(keyvalue);
+        }
+
+        return unpackedValue;
+
+    }
+
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning restore CS8603 // Possible null reference return.
 
     /// <summary>
     /// Delete an element with a certain key
     /// </summary>
     /// <param name="key"></param>
-    public void Delete(string key) {
+    public static void Delete(string key) {
         Preferences.Remove(key);
     }
 
@@ -49,7 +67,7 @@ public class PreferencesStore {
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    public bool Exists(string key) {
+    public static bool Exists(string key) {
         return Preferences.ContainsKey(key);
     }
 
@@ -57,7 +75,7 @@ public class PreferencesStore {
     /// <summary>
     /// ATTENTION: Clears the whole Preferences-Store
     /// </summary>
-    public void ClearAll() {
+    public static void ClearAll() {
         Preferences.Clear();
     }
 }
