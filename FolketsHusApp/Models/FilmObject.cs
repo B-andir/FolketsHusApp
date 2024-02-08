@@ -37,6 +37,7 @@ public class FilmObject {
     public string RuntimeMinutes { get; set; }
     public string Description { get; set; }
     public DateTime RunDate { get; set; }
+    public TimeSpan RunDateTime { get; set; }
     public string RunDateString { get; set; }
     public string TrailerURL { get; set; }
     public string TicketURL { get; set; }
@@ -66,6 +67,8 @@ public class FilmObject {
         RunDate = DateTime.Parse(filmToken.Value<string>("date"));
         RunDateString = RunDate.ToString("ddd dd/MM HH:mm", CultureInfo.GetCultureInfo("sv-SE"));
 #pragma warning restore CS8604 // Possible null reference argument.
+
+        RunDateTime = RunDate.TimeOfDay;
 
         TrailerURL = filmToken.Value<string>("trailerURL") ?? "NaN";
         TicketURL = filmToken.Value<string>("ticketURL") ?? "NaN";

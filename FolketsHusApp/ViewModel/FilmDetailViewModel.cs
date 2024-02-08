@@ -68,7 +68,9 @@ public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable,
             Genre = filmObject.Genre;
             RunDate = filmObject.RunDate;
 
-            RunDateTime = new TimeSpan(RunDate.Hour, RunDate.Minute, RunDate.Second);
+            Debug.WriteLine(filmObject.RunDateTime);
+
+            RunDateTime = filmObject.RunDateTime;
 
             IsPremiere = filmObject.IsPremiere;
         }
