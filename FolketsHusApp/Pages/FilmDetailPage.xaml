@@ -171,7 +171,7 @@
                 Margin="15,0"
                 VerticalOptions="Center"
                 HorizontalOptions="Start"
-                Time="{Binding RunDate}"
+                Time="{Binding RunDateTime}"
                 Format="HH:mm"/>
 
             <Label
