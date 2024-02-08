@@ -2,8 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Xml.Serialization;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FolketsHusApp.ViewModel;
 
@@ -11,8 +13,10 @@ internal class LoginParams {
     /// <summary>
     /// Password used for access to the app
     /// </summary>
+    [JsonProperty("username")]
+    public string Username { get; set; } = "";
     [JsonProperty("password")]
-    public string Password { get; set; } = string.Empty;
+    public string Password { get; set; } = "";
 }
 
 internal class LoginResponse {
@@ -34,43 +38,92 @@ public partial class LoginViewModel : ObservableObject {
         this.connectivity = connectivity;
         this.navigationService = navigationService;
         this.api = api;
+
+        api.preloadService();
+
+        try {
+            RememberUser = PreferencesStore.Get<bool>("LoginRememberUser");
+        } catch {
+            RememberUser = false;
+        }
+
+        if (RememberUser) {
+            EnteredUsername = SecureStorage.GetAsync("LoginUsername").Result;
+        }
     }
 
     [ObservableProperty]
-    string? enteredPassword;
+    string? enteredPassword, enteredUsername, labelText = "Loading ...";
 
-    private const string password = "test";
+    [ObservableProperty]
+    Color labelColor = new Color(137, 224, 96);
+
+    [ObservableProperty]
+    bool labelVisible, enableButton = true, loading = false, rememberUser = false;
+
+    async void SetLabel(string text, Color color) {
+
+        LabelVisible = true;
+        LabelText = text;
+        LabelColor = color;
+
+        await Task.Delay(10);
+
+        return;
+    }
 
     [RelayCommand]
     async Task Submit() {
-        if (string.IsNullOrWhiteSpace(EnteredPassword))
-            return;
+        EnableButton = false;
+        LabelVisible = false;
+        Loading = true;
 
-        else if (connectivity.NetworkAccess != NetworkAccess.Internet) {
-            // NO LONGER WORKS!!! Implement a custom alert lable on the page.
-            //await Shell.Current.DisplayAlert("Error", "No Internet Access. Try again later", "OK");
-            return;
+        // Necessary to allow the UI thread to refresh the screen
+        await Task.Delay(10);
+
+        if (string.IsNullOrWhiteSpace(EnteredPassword) || string.IsNullOrEmpty(EnteredUsername)) {
+            SetLabel("Please enter both your Username and your Password", new Color(230, 134, 106));
+
+        } else if (connectivity.NetworkAccess != NetworkAccess.Internet) {
+            SetLabel("No internet connection! Try again later.", new Color(230, 134, 106));
+
         } else {
 
-            var loginParams = new LoginParams { Password = EnteredPassword };
+            var loginParams = new LoginParams { Username = EnteredUsername, Password = EnteredPassword };
 
-            Response response = api.post("/appAuth", loginParams, false);
+            Response response = api.post("/authorize", loginParams, false);
 
-            JObject responseJson = JObject.Parse(response.responseString);
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
+                Debug.WriteLine("Username and Password missmatch");
+                SetLabel("Username or Password was incorrect, please try again", new Color(230, 134, 106));
 
-            if (response.StatusCode != System.Net.HttpStatusCode.OK) {
+            } else if (response.StatusCode != System.Net.HttpStatusCode.OK) {
                 Debug.WriteLine($"Request called successfully, but failed on the server, Error code: {response.StatusCode}");
-                return;
+                SetLabel("Server error! Please try again later.", new Color(230, 134, 106));
+
             } else {
                 Debug.WriteLine("Request successfull, should redirect");
+
+                JObject responseJson = JObject.Parse(response.responseString);
 
                 PreferencesStore.Set("accessToken", responseJson.GetValue("accessToken"));
                 PreferencesStore.Set("refreshToken", responseJson.GetValue("refreshToken"));
 
-                await navigationService.GoToAsync($"//{nameof(Pages.HomePage)}");
-            }
+                LabelVisible = false;
 
+                if (RememberUser) {
+                    await SecureStorage.SetAsync("LoginUsername", EnteredUsername);
+                }
+
+                PreferencesStore.Set("LoginRememberUser", RememberUser);
+
+                await navigationService.GoToAsync($"//{nameof(Pages.HomePage)}");
+
+            }
         }
+
+        Loading = false;
+        EnableButton = true;
 
     }
 }
