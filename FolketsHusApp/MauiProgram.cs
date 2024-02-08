@@ -38,6 +38,9 @@ namespace FolketsHusApp {
                 .AddTransient<BioRosenKontrastPage>()
                 .AddTransient<BioRosenKontrastViewModel>()
 
+                .AddTransient<FilmDetailPage>()
+                .AddTransient<FilmDetailViewModel>()
+
                 .AddTransient<UnesPage>()
                 .AddTransient<UnesViewModel>()
 

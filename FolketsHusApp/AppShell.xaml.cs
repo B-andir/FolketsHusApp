@@ -13,6 +13,9 @@ namespace FolketsHusApp {
             Routing.RegisterRoute(nameof(BioRosenKontrastPage), typeof(BioRosenKontrastPage));
             Routing.RegisterRoute(nameof(UnesPage), typeof(UnesPage));
             Routing.RegisterRoute(nameof(EvenemangPage), typeof(EvenemangPage));
+
+            Routing.RegisterRoute(nameof(FilmDetailPage), typeof(FilmDetailPage));
+
             Routing.RegisterRoute(nameof(LogoutSubPage), typeof(LogoutSubPage));
         }
     }

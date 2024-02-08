@@ -80,6 +80,7 @@ public partial class HomeViewModel : ObservableObject {
 
                 foreach (JProperty property in bioRosen.Properties()) {
                     Debug.WriteLine(String.Format("Writing {0} data to memory", property.Name));
+                    //PreferencesStore.Delete(property.Name);
                     PreferencesStore.Set(property.Name, bioRosen.GetValue(property.Name));
                 }
             } else {
@@ -90,6 +91,7 @@ public partial class HomeViewModel : ObservableObject {
 
                 foreach (JProperty property in events.Properties()) {
                     Debug.WriteLine(String.Format("Writing {0} data to memory", property.Name));
+                    PreferencesStore.Delete(property.Name);
                     PreferencesStore.Set(property.Name, events.GetValue(property.Name));
                 }
             } else {
