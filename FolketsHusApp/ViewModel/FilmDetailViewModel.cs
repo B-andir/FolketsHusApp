@@ -24,7 +24,7 @@ public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable,
     public DateTime runDate;
 
     [ObservableProperty]
-    public TimeSpan runTime;
+    public TimeSpan runTime, runDateTime;
 
     [ObservableProperty]
     public bool isPremiere;
@@ -67,6 +67,9 @@ public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable,
 
             Genre = filmObject.Genre;
             RunDate = filmObject.RunDate;
+
+            RunDateTime = new TimeSpan(RunDate.Hour, RunDate.Minute, RunDate.Second);
+
             IsPremiere = filmObject.IsPremiere;
         }
 
@@ -91,5 +94,21 @@ public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable,
                 NewPosterSource = photo.FullPath;
             }
         }
+    }
+
+    [RelayCommand]
+    async Task Delete() {
+        bool result = await Shell.Current.DisplayAlert("Delete Film", "Are you sure you want to delete this film? This action cannot be undone.", "Yes, Delete It", "Cancel");
+
+        if (result) {
+            Debug.WriteLine("DELETING");
+        } else {
+            Debug.WriteLine("Deletion canceled");
+        }
+    }
+
+    [RelayCommand]
+    void Save() {
+
     }
 }
