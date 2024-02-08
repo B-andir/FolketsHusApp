@@ -5,28 +5,149 @@
              xmlns:viewmodel="clr-namespace:FolketsHusApp.ViewModel"
              x:DataType="viewmodel:LoginViewModel">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Image
-                Source="logo.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a race car number eight" />
+    <Grid
+    Padding="30,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="80"/>
+        </Grid.ColumnDefinitions>
 
-            <Entry
-                Placeholder="Enter Password"
-                Text="{Binding EnteredPassword}"
-                SemanticProperties.HeadingLevel="Level1"
-                IsPassword="True"/>
+        <Image
+        Source="logo.png"
+        HeightRequest="50"
+        VerticalOptions="Center"
+        HorizontalOptions="Start"
+        Aspect="AspectFit"
+        SemanticProperties.Description="dot net bot in a race car number eight" 
+        Margin="0,20"/>
 
-            <Button
-                Text="Submit" 
-                Command="{Binding SubmitCommand}"
-                HorizontalOptions="Fill" />
-            
-        </VerticalStackLayout>
-    </ScrollView>
+        <Label
+        Grid.Row="1"
+        VerticalOptions="Center"
+        HorizontalOptions="End"
+        Text="Username:"/>
+
+        <Entry
+        Grid.Row="1"
+        Grid.Column="1"
+        Grid.ColumnSpan="3"
+        x:Name="username_entry"
+        Placeholder="Username"
+        HeightRequest="40"
+        Margin="10,0"
+        Text="{Binding EnteredUsername}"
+        SemanticProperties.HeadingLevel="Level1"
+        Completed="username_entry_Completed"/>
+
+        <Label
+        Grid.Row="2"
+        VerticalOptions="Center"
+        HorizontalOptions="End"
+        Text="Password:"/>
+
+        <Entry
+        Grid.Row="2"
+        Grid.Column="1"
+        Grid.ColumnSpan="3"
+        x:Name="password_entry"
+        Placeholder="Password"
+        HeightRequest="40"
+        Margin="10,0"
+        Text="{Binding EnteredPassword}"
+        SemanticProperties.HeadingLevel="Level1"
+        IsPassword="True"
+        Completed="password_entry_Completed"/>
+
+        <ImageButton
+        x:Name="toggle_password_hidden_button"
+        Grid.Row="2"
+        Grid.Column="3"
+        ZIndex="1"
+        WidthRequest="20"
+        HeightRequest="20"
+        HorizontalOptions="Start"
+        VerticalOptions="Center"
+        Margin="-5,-2"
+        Source="eye.png"
+        Clicked="toggle_password_hidden_button_Clicked"/>
+
+        <Image
+        x:Name="helper_image"
+        IsVisible="false"
+        Source="eye_crossed.png"/>
+
+        <Button
+        Grid.Row="1"
+        Grid.RowSpan="2"
+        Grid.Column="4"
+        x:Name="submit_button"
+        HorizontalOptions="Fill"
+        Clicked="submit_button_Clicked"
+        IsEnabled="{Binding EnableButton}"
+        BackgroundColor="{StaticResource Red}"
+        TextColor="White"
+        Text="Submit"
+        ContentLayout="Top,0"
+        BorderColor="{StaticResource PrimaryDark}"
+        BorderWidth="2"
+        CornerRadius="25"/>
+
+        <HorizontalStackLayout
+            Grid.Row="3"
+            Grid.ColumnSpan="5"
+            VerticalOptions="Center">
+
+            <Label
+                VerticalOptions="Center"
+                Text="Remember User"
+                FontSize="12"/>
+
+            <CheckBox
+                x:Name="remember_user_checkbox"
+                HorizontalOptions="Start"
+                IsChecked="{Binding RememberUser}"/>
+        </HorizontalStackLayout>
+
+        <Frame
+        Grid.Row="4"
+        Grid.ColumnSpan="5"
+        x:Name="error_frame"
+        IsVisible="{Binding LabelVisible}"
+        BackgroundColor="{Binding LabelColor}"
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        CornerRadius="5"
+        BorderColor="Transparent"
+        Padding="20,10">
+
+            <Label
+            x:Name="error_label"
+            Text="{Binding LabelText}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"/>
+        </Frame>
+
+        <ActivityIndicator
+            Grid.RowSpan="6"
+            Grid.ColumnSpan="5"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Color="{StaticResource Primary}"
+            IsRunning="{Binding Loading}"/>
+
+    </Grid>
 
 </ContentPage>

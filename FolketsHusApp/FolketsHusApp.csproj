@@ -59,13 +59,14 @@
 	<ItemGroup>
 	  <None Remove="Resources\Images\bolt.svg" />
 	  <None Remove="Resources\Images\calendar_star.svg" />
+	  <None Remove="Resources\Images\eye.png" />
+	  <None Remove="Resources\Images\eye_crossed.png" />
 	  <None Remove="Resources\Images\film.svg" />
 	  <None Remove="Resources\Images\glass_champagne.svg" />
 	  <None Remove="Resources\Images\home.svg" />
 	  <None Remove="Resources\Images\lock.svg" />
 	  <None Remove="Resources\Images\logo.png" />
 	  <None Remove="Resources\Images\popcorn.svg" />
-	  <None Remove="Resources\Images\refresh.svg" />
 	  <None Remove="Resources\Images\restaurant.svg" />
 	  <None Remove="Resources\Images\trash.svg" />
 	  <None Remove="Resources\Images\video_camera.svg" />
