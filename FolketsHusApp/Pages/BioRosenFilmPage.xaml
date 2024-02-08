@@ -1,23 +1,122 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:FolketsHusApp.Models"
              x:Class="FolketsHusApp.Pages.BioRosenFilmPage"
              xmlns:viewmodel="clr-namespace:FolketsHusApp.ViewModel"
              x:DataType="viewmodel:BioRosenFilmViewModel">
 
-    <VerticalStackLayout
-        VerticalOptions="Center"
-        HorizontalOptions="Center">
-
-        <Image 
-            Source="logo.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="Red silhouette of a large glass-clad building"
-                HorizontalOptions="Center" />
+    <Grid
+        VerticalOptions="Start"
+        HorizontalOptions="Center"
+        Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
         <Label
-            Text="Successfully unlocked!"/>
+            Grid.Row="0"
+            Text="Uppkommande Filmer"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            FontSize="20"
+            Padding="10"/>
 
-    </VerticalStackLayout>
+        <Label
+            Grid.Row="1"
+            Text="Inga kommande filmer"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            FontSize="17"
+            IsVisible="{Binding NoObjects}"/>
+
+        <Button
+            Grid.Row="2"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            BackgroundColor="SkyBlue"
+            Text="Refresh"
+            Padding="20,10"
+            FontSize="20"
+            ZIndex="2"
+            Command="{Binding RefreshCommand}"
+            IsVisible="{Binding NoObjects}"/>
+
+        <ScrollView 
+            Padding="5, 10"
+            Grid.Row="1"
+            Grid.RowSpan="3"
+            ZIndex="1">
+            <CollectionView
+                ItemsSource="{Binding FilmsObjects}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView IsEnabled="{Binding IsSwipeViewEnabled}">
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem 
+                                        Text="Delete"
+                                        IconImageSource="trash.svg"
+                                        BackgroundColor="LightPink"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:BioRosenFilmViewModel}}, Path=DeleteCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Grid HeightRequest="120" WidthRequest="300" x:DataType="models:FilmObject">
+                                <Frame 
+                                    CornerRadius="0"
+                                    BorderColor="LightSlateGray"
+                                    BackgroundColor="GhostWhite">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:BioRosenFilmViewModel}}, Path=TapCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <Grid HeightRequest="110" WidthRequest="290">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="0.6*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="20"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image 
+                                            Grid.Column="0"
+                                            Grid.RowSpan="3"
+                                            Source="{Binding PosterSource}"/>
+
+                                        <Label 
+                                            Grid.Column="1"
+                                            Margin="12,8"
+                                            Text="{Binding FilmName}"
+                                            FontSize="18"/>
+
+                                        <Label
+                                            Grid.Column="1"
+                                            Grid.Row="2"
+                                            Margin="12,0"
+                                            Text="{Binding RunDateString}"
+                                            FontSize="13"/>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"
+                                       ItemSpacing="12"/>
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+        </ScrollView>
+
+    </Grid>
 </ContentPage>

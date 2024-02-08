@@ -2,9 +2,9 @@ using FolketsHusApp.ViewModel;
 
 namespace FolketsHusApp.Pages;
 
-public partial class BioRosenFilmPage : ContentPage {
+public partial class FilmDetailPage : ContentPage {
 
-    public BioRosenFilmPage(BioRosenFilmViewModel vm) {
+    public FilmDetailPage(FilmDetailViewModel vm) {
         InitializeComponent();
         BindingContext = vm;
     }

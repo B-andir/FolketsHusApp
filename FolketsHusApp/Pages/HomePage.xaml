@@ -4,20 +4,32 @@
              x:Class="FolketsHusApp.Pages.HomePage"
              xmlns:viewmodel="clr-namespace:FolketsHusApp.ViewModel"
              x:DataType="viewmodel:HomeViewModel">
-    
+
     <VerticalStackLayout
-        VerticalOptions="Center"
-        HorizontalOptions="Center">
-        
+        VerticalOptions="Start"
+        HorizontalOptions="Center"
+        Padding="20">
+
         <Image 
             Source="logo.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="Red silhouette of a large glass-clad building"
-                HorizontalOptions="Center" />
+            HeightRequest="100"
+            Aspect="AspectFit"
+            SemanticProperties.Description="Red silhouette of a large glass-clad building"
+            HorizontalOptions="Center" />
 
         <Label
+            HorizontalOptions="Center"
+            Margin="20"
             Text="Successfully unlocked!"/>
-        
+
+        <Button
+            Text="Refresh"
+            Command="{Binding RefreshAllContentCommand}"
+            BackgroundColor="SkyBlue"
+            HeightRequest="50"
+            WidthRequest="150"
+            TextColor="White"
+            FontSize="22"/>
+
     </VerticalStackLayout>
 </ContentPage>
