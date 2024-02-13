@@ -1,23 +1,368 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:FolketsHusApp.Models"
+             xmlns:controls="clr-namespace:FolketsHusApp.Controls"
              x:Class="FolketsHusApp.Pages.BioRosenQuickPage"
              xmlns:viewmodel="clr-namespace:FolketsHusApp.ViewModel"
              x:DataType="viewmodel:BioRosenQuickViewModel">
 
-    <VerticalStackLayout
-        VerticalOptions="Center"
-        HorizontalOptions="Center">
+    <Grid>
+        <ScrollView>
+            <Grid RowDefinitions="*" ColumnDefinitions="*" Padding="10, 5">
+                <VerticalStackLayout
+                    x:Name="start_vertical_stack_layout"
+                    IsVisible="true"
+                    HorizontalOptions="Center"
+                    Padding="0, 100"
+                    Spacing="20">
 
-        <Image 
-            Source="logo.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="Red silhouette of a large glass-clad building"
-                HorizontalOptions="Center" />
+                    <Label
+                        Text="Please select a show type"
+                        TextColor="{StaticResource Primary}"
+                        FontSize="15"
+                        HorizontalTextAlignment="Center"/>
 
-        <Label
-            Text="Successfully unlocked!"/>
+                    <Picker
+                        x:Name="film_type_first_picker"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="200"
+                        Title="Show Type"
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        SelectedIndex="{Binding FilmTypePickerIndex}"
+                        SelectedIndexChanged="film_type_first_picker_SelectedIndexChanged">
 
-    </VerticalStackLayout>
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Film</x:String>
+                                <x:String>Live på Bio</x:String>
+                                <x:String>Bio Kontrast</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                </VerticalStackLayout>
+
+                <Grid 
+                    x:Name="content_grid"
+                    IsVisible="false">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="80"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Picker
+                        x:Name="film_type_second_picker"
+                        Grid.ColumnSpan="3"
+                        VerticalOptions="Center"
+                        Title="Show Type"
+                        SelectedIndex="{Binding FilmTypePickerIndex}"
+                        HorizontalTextAlignment="Center"
+                        SelectedIndexChanged="film_type_second_picker_SelectedIndexChanged"
+                        FontSize="18">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Film</x:String>
+                                <x:String>Live på Bio</x:String>
+                                <x:String>Bio Kontrast</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <Label 
+                        Grid.Row="1"
+                        Text="Show Title:"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start"
+                        Margin="15,0"
+                        FontSize="17"/>
+
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Margin="5,0,15,0"
+                        Placeholder="Title"
+                        Text="{Binding FilmTitle}"
+                        VerticalOptions="Center"/>
+
+                    <Label
+                        Grid.Row="2"
+                        Grid.ColumnSpan="3"
+                        HorizontalOptions="Start" 
+                        Margin="15,10"
+                        Text="Decription:"
+                        FontSize="17"/>
+
+                    <Editor
+                        Grid.Row="3"
+                        Grid.ColumnSpan="3"
+                        VerticalOptions="Start"
+                        MinimumHeightRequest="50"
+                        Margin="15,0"
+                        Placeholder="Enter description here ..."
+                        Text="{Binding Description}"/>
+
+                    <Button
+                        Grid.Row="4"
+                        Grid.ColumnSpan="2"
+                        VerticalOptions="Start"
+                        HorizontalOptions="Start"
+                        Text="Select Poster Image"
+                        CornerRadius="5"
+                        BackgroundColor="LightGrey"
+                        TextColor="{StaticResource Primary}"
+                        BorderColor="{StaticResource Primary}"
+                        BorderWidth="1"
+                        Padding="10, 5"
+                        Margin="15,10"
+                        Command="{Binding ImageSelectCommand}"/>
+
+                    <Image
+                        Grid.Row="5"
+                        Grid.ColumnSpan="2"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Margin="15,10"
+                        IsVisible="{Binding PosterImageVisible}"
+                        Source="{Binding PosterSource}"/>
+
+                    <Grid
+                        x:Name="live_time_and_pauses_container"
+                        Grid.Row="6"
+                        Grid.ColumnSpan="3"
+                        IsVisible="false">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        
+                        <HorizontalStackLayout>
+                            <Label
+                                Margin="15,0"
+                                Text="Total Length:"
+                                HorizontalOptions="Start" 
+                                VerticalOptions="Center"
+                                FontSize="16"/>
+
+                            <TimePicker
+                                Margin="15,0"
+                                VerticalOptions="Center"
+                                HorizontalOptions="StartAndExpand"
+                                Time="{Binding RunTime}"
+                                Format="H\h m\m"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Row="1">
+                            <Label
+                                Margin="15,0"
+                                Text="Pauses:"
+                                HorizontalOptions="Start" 
+                                VerticalOptions="Center"
+                                FontSize="16"/>
+
+                            <Entry
+                                Margin="10,0,20,0"
+                                Text="{Binding LivePausesCount}"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="2"
+                                CursorPosition="2"
+                                FontSize="16"/>
+
+                            <Stepper
+                                Value="{Binding LivePausesCount}"
+                                Increment="1.0"
+                                Minimum="0"
+                                Maximum="10"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"/>
+
+                        </HorizontalStackLayout>
+
+                    </Grid>
+
+                    <Label
+                        x:Name="normal_film_length_label"
+                        Grid.Row="6"
+                        Margin="15,0"
+                        Text="Film Length:"
+                        HorizontalOptions="Start" 
+                        VerticalOptions="Center"
+                        FontSize="16"/>
+
+                    <TimePicker
+                        x:Name="normal_film_length_time_picker"
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Margin="15,0"
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"
+                        Time="{Binding RunTime}"
+                        Format="H\h m\m"/>
+
+
+                    <Label
+                        Grid.Row="7"
+                        Margin="15,0"
+                        Text="Date &amp; Time:"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        FontSize="16"/>
+
+                    <DatePicker
+                        Grid.Row="7"
+                        Grid.Column="1"
+                        Margin="15,0"
+                        VerticalOptions="CenterAndExpand"
+                        WidthRequest="100"
+                        Date="{Binding RunDate}"
+                        Format="dd/MM/yyyy"/>
+
+                    <TimePicker
+                        Grid.Row="7"
+                        Grid.Column="2"
+                        Margin="15,0"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"
+                        Time="{Binding RunDateTime}"
+                        Format="HH:mm"/>
+
+                    
+                    <Label
+                        x:Name="age_rating_label"
+                        Grid.Row="8"
+                        Margin="15,0"
+                        Text="Age Rating:"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        FontSize="16"/>
+
+                    <Picker
+                        x:Name="age_rating_picker"
+                        Grid.Row="8"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        VerticalOptions="Center"
+                        SelectedItem="{Binding AgeRating}"
+                        ItemsSource="{Binding AgeRatingItems}"
+                        ItemDisplayBinding="{Binding AgeRatingString}"/>
+
+                    <Label
+                        Grid.Row="9"
+                        Margin="15,0"
+                        Text="Trailer URL:"
+                        HorizontalOptions="Start" 
+                        VerticalOptions="Center"
+                        FontSize="16"/>
+
+                    <Entry
+                        Grid.Row="9"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Margin="15,0"
+                        Placeholder="http://youtube.com/example"
+                        Text="{Binding TrailerURL}"
+                        Keyboard="Url"
+                        VerticalOptions="Center"/>
+
+                    <Label
+                        x:Name="ticket_url_label"
+                        Grid.Row="10"
+                        Margin="15,0"
+                        Text="Ticket URL:"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        FontSize="16"/>
+
+                    <Entry
+                        x:Name="ticket_url_entry"
+                        Grid.Row="10"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Margin="15,0"
+                        Placeholder="http://example.com/123"
+                        Text="{Binding TicketURL}"
+                        Keyboard="Url"
+                        VerticalOptions="Center"/>
+
+                    <Label
+                        Grid.Row="11"
+                        Margin="15,0"
+                        Text="Genre:"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        FontSize="16"/>
+
+                    <controls:MultiSelectionPicker
+                        Grid.Row="11"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Margin="15,0"
+                        x:Name="genre_picker"
+                        BackgroundColor="White"
+                        Placeholder="Click to Select"
+                        VerticalOptions="Center"
+                        ItemsSource="{Binding GenresItems}"
+                        SelectedIndices="{Binding GenresIndices}"/>
+
+                    <Label
+                        x:Name="premiere_label"
+                        Grid.Row="12"
+                        Margin="15,0"
+                        Text="Premiere:"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        FontSize="16"/>
+
+                    <CheckBox
+                        x:Name="premiere_check_box"
+                        Grid.Row="12"
+                        Grid.Column="1"
+                        IsChecked="{Binding IsPremiere}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"/>
+
+                    <Button
+                        Grid.Row="13"
+                        Grid.ColumnSpan="3"
+                        Text="Save Show"
+                        Padding="20,5"
+                        BackgroundColor="LightSkyBlue"
+                        Command="{Binding SaveShowCommand}"/>
+
+                </Grid>
+
+            </Grid>
+        </ScrollView>
+
+        <ActivityIndicator
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Color="{StaticResource Primary}"
+            IsRunning="{Binding Loading}"/>
+    </Grid>
+    
 </ContentPage>
