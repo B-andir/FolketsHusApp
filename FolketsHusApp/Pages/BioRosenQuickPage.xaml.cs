@@ -4,14 +4,27 @@ using System.Diagnostics;
 namespace FolketsHusApp.Pages;
 
 public partial class BioRosenQuickPage : ContentPage {
+
+    BioRosenQuickViewModel viewModel;
+
     public BioRosenQuickPage(BioRosenQuickViewModel vm) {
         InitializeComponent();
         BindingContext = vm;
+        viewModel = vm;
+
+        genre_picker.TextChanged += genre_picker_TextChanged;
     }
 
     private void film_type_first_picker_SelectedIndexChanged(object sender, EventArgs e) {
         start_vertical_stack_layout.IsVisible = false;
         content_grid.IsVisible = true;
+
+        Task.Delay(10);
+
+        viewModel.AgeRatingIndex = 0;
+        viewModel.AgeRating = viewModel.AgeRatingItems[0];
+
+        Task.Delay(20);
     }
 
     private void film_type_second_picker_SelectedIndexChanged(object sender, EventArgs e) {
@@ -50,5 +63,9 @@ public partial class BioRosenQuickPage : ContentPage {
 
         }
 
+    }
+
+    private void genre_picker_TextChanged(object? sender, TextChangedEventArgs e) {
+        viewModel.GenresString = genre_picker.Text;
     }
 }

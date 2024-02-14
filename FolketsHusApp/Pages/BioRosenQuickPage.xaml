@@ -51,8 +51,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="80"/>
                         <RowDefinition Height="60"/>
-                        <RowDefinition Height="70"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="100"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -117,7 +117,7 @@
                         Grid.Row="3"
                         Grid.ColumnSpan="3"
                         VerticalOptions="Start"
-                        MinimumHeightRequest="50"
+                        HeightRequest="100"
                         Margin="15,0"
                         Placeholder="Enter description here ..."
                         Text="{Binding Description}"/>
@@ -266,6 +266,7 @@
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         VerticalOptions="Center"
+                        Margin="15,0"
                         SelectedItem="{Binding AgeRating}"
                         ItemsSource="{Binding AgeRatingItems}"
                         ItemDisplayBinding="{Binding AgeRatingString}"/>
@@ -333,7 +334,7 @@
                         Grid.Row="12"
                         Margin="15,0"
                         Text="Premiere:"
-                        HorizontalOptions="End"
+                        HorizontalOptions="Start"
                         VerticalOptions="Center"
                         FontSize="16"/>
 
