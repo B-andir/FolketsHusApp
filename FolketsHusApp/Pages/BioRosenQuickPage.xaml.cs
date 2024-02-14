@@ -16,18 +16,27 @@ public partial class BioRosenQuickPage : ContentPage {
     }
 
     private void film_type_first_picker_SelectedIndexChanged(object sender, EventArgs e) {
-        start_vertical_stack_layout.IsVisible = false;
-        content_grid.IsVisible = true;
+        if (film_type_first_picker.SelectedIndex == -1) {
+            start_vertical_stack_layout.IsVisible = true;
+            content_grid.IsVisible = false;
+        } else {
 
-        Task.Delay(10);
+            start_vertical_stack_layout.IsVisible = false;
+            content_grid.IsVisible = true;
 
-        viewModel.AgeRatingIndex = 0;
-        viewModel.AgeRating = viewModel.AgeRatingItems[0];
+            Task.Delay(10);
 
-        Task.Delay(20);
+            viewModel.AgeRatingIndex = 0;
+            viewModel.AgeRating = viewModel.AgeRatingItems[0];
+
+            Task.Delay(20);
+        }
     }
 
     private void film_type_second_picker_SelectedIndexChanged(object sender, EventArgs e) {
+
+        if (film_type_second_picker.SelectedIndex == -1)
+            return;
 
         // Reset all possibly changed values
 
@@ -62,7 +71,6 @@ public partial class BioRosenQuickPage : ContentPage {
             ticket_url_entry.IsVisible = false;
 
         }
-
     }
 
     private void genre_picker_TextChanged(object? sender, TextChangedEventArgs e) {

@@ -220,10 +220,34 @@ public partial class BioRosenQuickViewModel : ObservableObject {
                 PreferencesStore.Set(property.Name, responseJson.GetValue(property.Name));
             }
 
+            Loading = false;
+            await Task.Delay(20);
+
+            bool result = await Application.Current.MainPage.DisplayAlert("Success!", "Successfully saved the show to the server. Do you want to clear all fields to start from scratch with another show?", "Yes", "No");
+
+            if (result) {
+                ResetAllValues();
+            } else {
+                return;
+            }
+        }
+
+        void ResetAllValues() {
+            FilmTypePickerIndex = -1;
+            AgeRatingIndex = 0;
+            LivePausesCount = 0;
+            FilmTitle = Description = TrailerURL = TicketURL = PosterSource = string.Empty;
+            IsPremiere = PosterImageVisible = false;
+            RunTime = new DateTime(1, 1, 1, 1, 30, 0).TimeOfDay;
+            RunDateTime = new DateTime(1, 1, 1, 18, 0, 0).TimeOfDay;
+            RunDate = DateTime.Now;
+
+            AgeRating = AgeRatingItems[AgeRatingIndex];
+            GenresIndices = new List<int>();
+            GenresString = "";
 
         }
 
-        Loading = false;
 
     }
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
