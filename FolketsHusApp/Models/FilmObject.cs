@@ -15,7 +15,7 @@ public class SelectAgeRatingItem {
     public SelectAgeRatingItem(string s) {
         if (s == "" || s == " ") {
             AgeRatingString = "Ingen Åldersgräns";
-            AgeRatingValue = "Ingen Åldersgräns";
+            AgeRatingValue = "";
         } else {
             AgeRatingString = s;
             AgeRatingValue = s;

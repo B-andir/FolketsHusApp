@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<controls:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:FolketsHusApp"
+             xmlns:controls="clr-namespace:FolketsHusApp.Controls"
+             x:Class="FolketsHusApp.Controls.CheckboxPage"
+             x:TypeArguments="x:String">
+
+    <ContentView Padding="10" BackgroundColor="Transparent">
+        <StackLayout BackgroundColor="Transparent">
+            <ListView
+                x:Name="list_view"
+                ItemTapped="list_view_ItemTapped"
+                SeparatorVisibility="None"
+                VerticalScrollBarVisibility="Never"
+                HorizontalScrollBarVisibility="Never">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout 
+                                Orientation="Horizontal" 
+                                HorizontalOptions="FillAndExpand">
+                                <Label 
+                                    Text="{Binding Text}" 
+                                    VerticalOptions="Center" 
+                                    HorizontalOptions="StartAndExpand"/>
+                                <CheckBox 
+                                    IsChecked="{Binding IsChecked}" 
+                                    HorizontalOptions="EndAndExpand" 
+                                    Color="Black"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackLayout
+                Orientation="Horizontal">
+
+
+                <Button 
+                    x:Name="cancel_button"
+                    Text="Cancel" 
+                    Clicked="cancel_button_Clicked" 
+                    HorizontalOptions="StartAndExpand" 
+                    VerticalOptions="Center" 
+                    Margin="20,2"
+                    BackgroundColor="LightPink" 
+                    ZIndex="2"/>
+                
+                <Button 
+                    x:Name="done_button"
+                    Text="Done" 
+                    Clicked="done_button_Clicked" 
+                    HorizontalOptions="EndAndExpand" 
+                    VerticalOptions="Center" 
+                    Margin="20,2"
+                    BackgroundColor="LightSkyBlue" 
+                    ZIndex="2"/>
+                
+            </StackLayout>
+        </StackLayout>
+    </ContentView>
+    
+</controls:BasePage>

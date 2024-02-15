@@ -12,7 +12,7 @@ public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable,
     public FilmObject? filmObject { get; private set; }
 
     [ObservableProperty]
-    public string? filmTitle, oGFilmTitle, posterSource, newPosterSource, runtimeHours, runtimeMinutes, description, trailerURL, ticketURL, genre;
+    public string? filmTitle, oGFilmTitle, posterSource, newPosterSource, description, trailerURL, ticketURL;
 
     [ObservableProperty]
     public SelectAgeRatingItem? ageRating;
@@ -37,6 +37,13 @@ public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable,
         new SelectAgeRatingItem("15 år", "15 år")
     };
 
+    [ObservableProperty]
+    public List<string> genresItems = new List<string>() { "Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Horror", "Musical", "Mystery", "Romance", "Science Fiction", "Thriller", "War", "Western" };
+
+    [ObservableProperty]
+    public List<int> genresIndices = new List<int>();
+
+
     public void ApplyQueryAttributes(IDictionary<string, object> query) {
         filmObject = query["FilmObject"] as FilmObject;
         OnPropertyChanged("FilmObject");
@@ -46,8 +53,6 @@ public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable,
             OGFilmTitle = FilmTitle;
             PosterSource = filmObject.PosterSource;
             NewPosterSource = "";
-            RuntimeHours = filmObject.RuntimeHours;
-            RuntimeMinutes = filmObject.RuntimeMinutes;
             RunTime = filmObject.RunTime;
 
             string description = filmObject.Description;
@@ -65,7 +70,16 @@ public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable,
                 }
             }
 
-            Genre = filmObject.Genre;
+            string genres = filmObject.Genre;
+
+            List<string> genresList = genres.Split(", ").ToList();
+
+            foreach (string genre in genresList) {
+                int index = GenresItems.IndexOf(genre);
+                if (index != -1)  // List<T>.IndexOf(x) returns -1 if it couldn't find x in list
+                    GenresIndices.Add(index);
+            }
+
             RunDate = filmObject.RunDate;
 
             Debug.WriteLine(filmObject.RunDateTime);
