@@ -2,12 +2,27 @@
 using CommunityToolkit.Mvvm.Input;
 using FolketsHusApp.Models;
 using FolketsHusApp.Pages;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace FolketsHusApp.ViewModel;
 
+public class DeleteElementParams {
+    [JsonProperty("dataType")]
+    private string DataType = "DeleteElement";
+
+    [JsonProperty("elementType")]
+    public string ElementType { get; set; } = "";
+
+    [JsonProperty("_id")]
+    public string Id { get; set; } = "";
+}
+
 public partial class BioRosenFilmViewModel : ObservableObject {
+
+    private IAPIService api;
 
     [ObservableProperty]
     public ObservableCollection<FilmObject> filmsObjects;
@@ -15,7 +30,9 @@ public partial class BioRosenFilmViewModel : ObservableObject {
     [ObservableProperty]
     public bool isSwipeViewEnabled, noObjects;
 
-    public BioRosenFilmViewModel() {
+    public BioRosenFilmViewModel(IAPIService api) {
+        this.api = api;
+
         IsSwipeViewEnabled = true;
         noObjects = true;
         FilmsObjects = new ObservableCollection<FilmObject>();
@@ -70,8 +87,31 @@ public partial class BioRosenFilmViewModel : ObservableObject {
     }
 
     [RelayCommand]
-    void Delete(FilmObject obj) {
+    async void Delete(FilmObject obj) {
         Debug.WriteLine(obj.FilmName);
+
+        DeleteElementParams deleteElementParams = new DeleteElementParams {
+            ElementType = "film",
+            Id = obj._id ?? ""
+        };
+
+        Response response = api.postProtected("/sendData", deleteElementParams);
+
+        if (response.StatusCode != System.Net.HttpStatusCode.OK) {
+            await Application.Current.MainPage.DisplayAlert("Error", response.responseString, "OK");
+        } else {
+
+            JObject responseJson = JObject.Parse(response.responseString);
+
+            foreach (JProperty property in responseJson.Properties()) {
+                Debug.WriteLine(string.Format("Writing {0} data to memory", property.Name));
+                PreferencesStore.Delete(property.Name);
+                PreferencesStore.Set(property.Name, responseJson.GetValue(property.Name));
+            }
+
+            Refresh();
+        }
+
     }
 
     [RelayCommand]
