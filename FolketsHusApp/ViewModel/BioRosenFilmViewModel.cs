@@ -119,11 +119,13 @@ public partial class BioRosenFilmViewModel : ObservableObject {
 
         FilmObject filmObject = obj as FilmObject;
 
-        var navigationParameter = new Dictionary<string, object> {
-            { "FilmObject", filmObject }
-        };
+        //var navigationParameter = new Dictionary<string, object> {
+        //    { "FilmObject", filmObject }
+        //};
 
-        await Shell.Current.GoToAsync(nameof(FilmDetailPage), navigationParameter);
+        //await Shell.Current.GoToAsync(nameof(FilmDetailPage), navigationParameter);
+
+        await Application.Current.MainPage.Navigation.PushModalAsync(new FilmDetailPage(filmObject));
     }
 
 }

@@ -6,8 +6,7 @@ using System.Diagnostics;
 
 namespace FolketsHusApp.ViewModel;
 
-[QueryProperty(nameof(FilmObject), "FilmObject")]
-public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable, INotifyPropertyChanged {
+public partial class FilmDetailViewModel : ObservableObject {
 
     public FilmObject? filmObject { get; private set; }
 
@@ -43,10 +42,7 @@ public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable,
     [ObservableProperty]
     public List<int> genresIndices = new List<int>();
 
-
-    public void ApplyQueryAttributes(IDictionary<string, object> query) {
-        filmObject = query["FilmObject"] as FilmObject;
-        OnPropertyChanged("FilmObject");
+    public FilmDetailViewModel(FilmObject filmObject) {
 
         if (filmObject != null) {
             FilmTitle = filmObject.FilmName;
@@ -88,7 +84,6 @@ public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable,
 
             IsPremiere = filmObject.IsPremiere;
         }
-
     }
 
     [RelayCommand]
@@ -126,5 +121,13 @@ public partial class FilmDetailViewModel : ObservableObject, IQueryAttributable,
     [RelayCommand]
     void Save() {
 
+    }
+
+    [RelayCommand]
+    async Task Back() {
+        if (Application.Current != null && Application.Current.MainPage != null)
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+
+        return;
     }
 }
