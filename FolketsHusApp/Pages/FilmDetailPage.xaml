@@ -32,12 +32,12 @@
 
             <Button
                 Grid.ColumnSpan="3"
-                Text="SAVE"
+                Text="BACK"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 WidthRequest="200"
-                BackgroundColor="LightSkyBlue"
-                Command="{Binding SaveCommand}"/>
+                BackgroundColor="LightSlateGray"
+                Command="{Binding BackCommand}"/>
 
             <Label 
                 Grid.Row="1"
