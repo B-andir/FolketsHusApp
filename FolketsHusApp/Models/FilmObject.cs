@@ -15,7 +15,7 @@ public class SelectAgeRatingItem {
     public SelectAgeRatingItem(string s) {
         if (s == "" || s == " ") {
             AgeRatingString = "Ingen Åldersgräns";
-            AgeRatingValue = "";
+            AgeRatingValue = " ";
         } else {
             AgeRatingString = s;
             AgeRatingValue = s;
@@ -29,7 +29,7 @@ public class SelectAgeRatingItem {
 
 public class FilmObject {
 
-    private string? _id;
+    public string? _id { get; private set; }
     public string FilmName { get; set; }
     public string PosterSource { get; set; }
     public TimeSpan RunTime { get; set; }
@@ -44,6 +44,7 @@ public class FilmObject {
     public string AgeRating { get; set; }
     public string Genre { get; set; }
     public bool IsPremiere { get; set; }
+    public string ShowType { get; set; }
 
 
     public FilmObject(JToken filmToken) {
@@ -61,7 +62,7 @@ public class FilmObject {
         RuntimeHours = hours.ToString();
         RuntimeMinutes = minutes.ToString();
 
-        Description = filmToken.Value<string>("description") ?? "NaN";
+        Description = filmToken.Value<string>("description") ?? "";
 
 #pragma warning disable CS8604 // Possible null reference argument.
         RunDate = DateTime.Parse(filmToken.Value<string>("date"));
@@ -77,6 +78,8 @@ public class FilmObject {
 
         Genre = filmToken.Value<string>("genre") ?? "NaN";
         IsPremiere = filmToken.Value<bool>("premiere") || false;
+
+        ShowType = filmToken.Value<string>("showType") ?? "";
     }
 
 }

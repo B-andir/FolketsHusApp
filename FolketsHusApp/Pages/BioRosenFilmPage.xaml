@@ -50,72 +50,83 @@
             Grid.Row="1"
             Grid.RowSpan="3"
             ZIndex="1">
-            <CollectionView
-                ItemsSource="{Binding FilmsObjects}"
-                SelectionMode="None">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <SwipeView IsEnabled="{Binding IsSwipeViewEnabled}">
-                            <SwipeView.RightItems>
-                                <SwipeItems>
-                                    <SwipeItem 
-                                        Text="Delete"
-                                        IconImageSource="trash.svg"
-                                        BackgroundColor="LightPink"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:BioRosenFilmViewModel}}, Path=DeleteCommand}"
-                                        CommandParameter="{Binding .}"/>
-                                </SwipeItems>
-                            </SwipeView.RightItems>
-                            <Grid HeightRequest="120" WidthRequest="300" x:DataType="models:FilmObject">
-                                <Frame 
-                                    CornerRadius="0"
-                                    BorderColor="LightSlateGray"
-                                    BackgroundColor="GhostWhite">
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:BioRosenFilmViewModel}}, Path=TapCommand}"
+            <SwipeView Threshold="100">
+                <SwipeView.TopItems>
+                    <SwipeItems Mode="Execute">
+                        <SwipeItem
+                            IconImageSource="refresh.svg"
+                            BackgroundColor="Transparent"
+                            Command="{Binding RefreshCommand}"/>
+                    </SwipeItems>
+                </SwipeView.TopItems>
+
+                <CollectionView
+                    ItemsSource="{Binding FilmsObjects}"
+                    SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView IsEnabled="{Binding IsSwipeViewEnabled}">
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem 
+                                            Text="Delete"
+                                            IconImageSource="trash.svg"
+                                            BackgroundColor="LightPink"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:BioRosenFilmViewModel}}, Path=DeleteCommand}"
                                             CommandParameter="{Binding .}"/>
-                                    </Frame.GestureRecognizers>
-                                    <Grid HeightRequest="110" WidthRequest="290">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="2*"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="0.6*"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="20"/>
-                                        </Grid.ColumnDefinitions>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <Grid HeightRequest="120" WidthRequest="300" x:DataType="models:FilmObject">
+                                    <Frame 
+                                        CornerRadius="0"
+                                        BorderColor="LightSlateGray"
+                                        BackgroundColor="GhostWhite">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:BioRosenFilmViewModel}}, Path=TapCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
+                                        <Grid HeightRequest="110" WidthRequest="290">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="2*"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="0.6*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="20"/>
+                                            </Grid.ColumnDefinitions>
 
-                                        <Image 
-                                            Grid.Column="0"
-                                            Grid.RowSpan="3"
-                                            Source="{Binding PosterSource}"/>
+                                            <Image 
+                                                Grid.Column="0"
+                                                Grid.RowSpan="3"
+                                                Source="{Binding PosterSource}"/>
 
-                                        <Label 
-                                            Grid.Column="1"
-                                            Margin="12,8"
-                                            Text="{Binding FilmName}"
-                                            FontSize="18"/>
+                                            <Label 
+                                                Grid.Column="1"
+                                                Margin="12,8"
+                                                Text="{Binding FilmName}"
+                                                FontSize="18"/>
 
-                                        <Label
-                                            Grid.Column="1"
-                                            Grid.Row="2"
-                                            Margin="12,0"
-                                            Text="{Binding RunDateString}"
-                                            FontSize="13"/>
-                                    </Grid>
-                                </Frame>
-                            </Grid>
-                        </SwipeView>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical"
-                                       ItemSpacing="12"/>
-                </CollectionView.ItemsLayout>
-            </CollectionView>
+                                            <Label
+                                                Grid.Column="1"
+                                                Grid.Row="2"
+                                                Margin="12,0"
+                                                Text="{Binding RunDateString}"
+                                                FontSize="13"/>
+                                        </Grid>
+                                    </Frame>
+                                </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"
+                                           ItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+            </SwipeView>
         </ScrollView>
 
     </Grid>

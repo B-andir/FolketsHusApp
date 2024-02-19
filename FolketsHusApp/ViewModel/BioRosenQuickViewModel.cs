@@ -35,10 +35,10 @@ internal class SaveShowParams {
     public string TicketURL { get; set; } = " ";
 
     [JsonProperty("ageRating")]
-    public string AgeRating { get; set; } = "";
+    public string AgeRating { get; set; } = " ";
 
     [JsonProperty("genre")]
-    public string Genre { get; set; } = "";
+    public string Genre { get; set; } = " ";
 
     [JsonProperty("runTime")]
     public int RunTime { get; set; } = 0;
@@ -194,7 +194,7 @@ public partial class BioRosenQuickViewModel : ObservableObject {
             PosterURL = posterURL,
             TrailerURL = TrailerURL != null ? TrailerURL : " ",
             TicketURL = TicketURL != null ? TicketURL : " ",
-            AgeRating = AgeRating != null ? AgeRating.AgeRatingValue : " ",
+            AgeRating = AgeRating != null || AgeRating.AgeRatingValue == "" ? AgeRating.AgeRatingValue : " ",
             Genre = GenresString,
             RunTime = _runTime,
             IsPremiere = IsPremiere,

@@ -37,8 +37,8 @@ public class APIService : IAPIService {
 
     // IMPORTANT! Change "http" to "https" when deployed and SSL Certificate is created.
     // Change Url to webdomain when ready for production.
-    const string url = "http://146.190.16.245:80/api";  // Public IP
-    //const string url = "http://10.0.2.2:5100/api";  // Localhost
+    //const string url = "http://146.190.16.245:80/api";  // Public IP
+    const string url = "http://10.0.2.2:5100/api";  // Localhost
 
     private INavigationService navigationService;
     private IConnectivity connectivity;
@@ -124,7 +124,7 @@ public class APIService : IAPIService {
                 return new Response();
             }
 
-        } else if (iterations >= 1 && responseMessage.StatusCode != System.Net.HttpStatusCode.OK) {
+        } else if (iterations >= 1 && responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
             navigationService.GoToAsync("//login");
 
             return new Response();
