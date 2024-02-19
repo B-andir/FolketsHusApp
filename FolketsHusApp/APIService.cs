@@ -1,6 +1,7 @@
 ﻿
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 
@@ -36,7 +37,8 @@ public class APIService : IAPIService {
 
     // IMPORTANT! Change "http" to "https" when deployed and SSL Certificate is created.
     // Change Url to webdomain when ready for production.
-    const string url = "http://146.190.16.245:80/api";
+    const string url = "http://146.190.16.245:80/api";  // Public IP
+    //const string url = "http://10.0.2.2:5100/api";  // Localhost
 
     private INavigationService navigationService;
     private IConnectivity connectivity;
@@ -101,6 +103,8 @@ public class APIService : IAPIService {
 
     private Response postProtected(string route, object body, int iterations = 0) {
 
+        Debug.WriteLine(string.Format("Sending post request to protedted route {0}, iteration {1}", route, iterations));
+
         var bodyProtected = new ProtectedRequest(PreferencesStore.Get<string>("accessToken"), body);
 
         var content = new StringContent(JsonConvert.SerializeObject(bodyProtected), Encoding.UTF8, "application/json");
@@ -109,7 +113,7 @@ public class APIService : IAPIService {
         HttpResponseMessage responseMessage = sendPost(apiUrl, content).Result;
         string responseContent = responseMessage.Content.ReadAsStringAsync().Result;
 
-        if (iterations <= 0 && (responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized || responseMessage.StatusCode == System.Net.HttpStatusCode.BadRequest)) {
+        if (iterations <= 0 && (responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)) {
             // Access Token was denied. Try to get a new token, then retry to call the API
             bool result = GetNewAccessToken();
 
