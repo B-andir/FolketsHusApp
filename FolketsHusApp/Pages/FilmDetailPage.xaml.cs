@@ -14,4 +14,9 @@ public partial class FilmDetailPage : ContentPage {
     private void genre_picker_TextChanged(object sender, TextChangedEventArgs e) {
         viewModel.GenresString = genre_picker.Text;
     }
+
+    private void age_rating_picker_Loaded(object sender, EventArgs e) {
+        age_rating_picker.SelectedIndex = viewModel.AgeRatingIndex;
+        age_rating_picker.SelectedItem = viewModel.AgeRating;
+    }
 }

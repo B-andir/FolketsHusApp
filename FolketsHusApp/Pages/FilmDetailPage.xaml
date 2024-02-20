@@ -186,13 +186,16 @@
                     FontSize="16"/>
 
                 <Picker
+                    x:Name="age_rating_picker"
                     Grid.Row="8"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
                     VerticalOptions="Center"
                     SelectedItem="{Binding AgeRating}"
+                    SelectedIndex="{Binding AgeRatingIndex}"
                     ItemsSource="{Binding AgeRatingItems}"
-                    ItemDisplayBinding="{Binding AgeRatingString}"/>
+                    ItemDisplayBinding="{Binding AgeRatingString}"
+                    Loaded="age_rating_picker_Loaded"/>
 
                 <Label
                     Grid.Row="9"

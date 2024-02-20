@@ -20,7 +20,7 @@ public partial class FilmDetailViewModel : ObservableObject {
     public string? filmTitle, oGFilmTitle, posterSource, newPosterSource, description, trailerURL, ticketURL;
 
     [ObservableProperty]
-    public SelectAgeRatingItem? ageRating;
+    public SelectAgeRatingItem ageRating;
 
     [ObservableProperty]
     public int ageRatingIndex = 0;
@@ -36,7 +36,7 @@ public partial class FilmDetailViewModel : ObservableObject {
 
     [ObservableProperty]
     public List<SelectAgeRatingItem> ageRatingItems = new() {
-        new SelectAgeRatingItem("Ingen Åldersgräns", ""),
+        new SelectAgeRatingItem("Ingen Åldersgräns", " "),
         new SelectAgeRatingItem("7 år", "7 år"),
         new SelectAgeRatingItem("11 år", "11 år"),
         new SelectAgeRatingItem("15 år", "15 år")
@@ -68,12 +68,13 @@ public partial class FilmDetailViewModel : ObservableObject {
         TicketURL = filmObject.TicketURL;
         SelectAgeRatingItem _ageRating = new SelectAgeRatingItem(filmObject.AgeRating);
 
-        for (int i = 0; i < AgeRatingItems.Count; i++) {
-            if (_ageRating.Equals(AgeRatingItems[i])) {
-                AgeRatingIndex = i;
-                AgeRating = AgeRatingItems[i];
+        for (int i = 0; i < ageRatingItems.Count; i++) {
+            if (_ageRating.Equals(ageRatingItems[i])) {
+                ageRatingIndex = i;
             }
         }
+
+        ageRating = ageRatingItems[ageRatingIndex];
 
         string genres = filmObject.Genre;
 
