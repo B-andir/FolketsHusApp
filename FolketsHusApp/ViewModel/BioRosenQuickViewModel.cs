@@ -11,16 +11,19 @@ namespace FolketsHusApp.ViewModel;
 
 internal class SaveShowParams {
     [JsonProperty("dataType")]
-    private string DataType = "BioRosenShow";
+    public string DataType { get; set; } = "BioRosenShow";
 
     [JsonProperty("showType")]
     public string ShowType { get; set; } = "NaN";
 
+    [JsonProperty("_id")]
+    public string _id { get; set; } = " ";
+
     [JsonProperty("title")]
-    public string Title { get; set; } = "Nan";
+    public string Title { get; set; } = "NaN";
 
     [JsonProperty("description")]
-    public string Description { get; set; } = "Nan";
+    public string Description { get; set; } = "NaN";
 
     [JsonProperty("posterCloudinaryId")]
     public string PosterCloudinaryId { get; set; } = " ";

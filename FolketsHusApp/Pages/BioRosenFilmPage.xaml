@@ -4,7 +4,8 @@
              xmlns:models="clr-namespace:FolketsHusApp.Models"
              x:Class="FolketsHusApp.Pages.BioRosenFilmPage"
              xmlns:viewmodel="clr-namespace:FolketsHusApp.ViewModel"
-             x:DataType="viewmodel:BioRosenFilmViewModel">
+             x:DataType="viewmodel:BioRosenFilmViewModel"
+             NavigatedTo="ContentPage_NavigatedTo">
 
     <Grid
         VerticalOptions="Start"
