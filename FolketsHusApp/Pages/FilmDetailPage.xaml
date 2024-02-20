@@ -7,270 +7,282 @@
              xmlns:viewmodel="clr-namespace:FolketsHusApp.ViewModel"
              x:DataType="viewmodel:FilmDetailViewModel"
              Title="{Binding OGFilmTitle}">
-    <ScrollView Padding="10,5">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="240"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="100"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="0.5*"/>
-            </Grid.ColumnDefinitions>
-
-            <Button
-                Grid.ColumnSpan="3"
-                Text="BACK"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                WidthRequest="200"
-                BackgroundColor="LightSlateGray"
-                Command="{Binding BackCommand}"/>
-
-            <Label 
-                Grid.Row="1"
-                Text="Film Title:"
-                VerticalOptions="Center" 
-                HorizontalOptions="Start"
-                Margin="15,0"
-                FontSize="17"/>
-
-            <Entry
-                Grid.Row="1"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                Text="{Binding FilmTitle}"
-                VerticalOptions="Center"/>
-
-            <Label
-                Grid.Row="2"
-                Grid.ColumnSpan="3"
-                HorizontalOptions="Start" 
-                Margin="15,0"
-                Text="Decription:"
-                FontSize="17"/>
-
-            <Editor
-                Grid.Row="3"
-                Grid.ColumnSpan="3"
-                VerticalOptions="Start"
-                Margin="15,0"
-                Text="{Binding Description}"/>
-
-            <Grid
-                Grid.Row="4"
-                Grid.ColumnSpan="3">
-                
+    <Grid Padding="10,5">
+        <ScrollView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="240"/>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="100"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
                 </Grid.ColumnDefinitions>
 
+                <Button
+                    Grid.ColumnSpan="3"
+                    Text="BACK"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    WidthRequest="200"
+                    BackgroundColor="LightSlateGray"
+                    Command="{Binding BackCommand}"/>
+
+                <Label 
+                    Grid.Row="1"
+                    Text="Film Title:"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start"
+                    Margin="15,0"
+                    FontSize="17"/>
+
+                <Entry
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Text="{Binding FilmTitle}"
+                    VerticalOptions="Center"/>
+
+                <Label
+                    Grid.Row="2"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="Start" 
+                    Margin="15,0"
+                    Text="Decription:"
+                    FontSize="17"/>
+
+                <Editor
+                    Grid.Row="3"
+                    Grid.ColumnSpan="3"
+                    VerticalOptions="Start"
+                    Margin="15,0"
+                    Text="{Binding Description}"/>
+
                 <Grid
-                    Margin="5"
-                    RowDefinitions="30,*">
+                    Grid.Row="4"
+                    Grid.ColumnSpan="3">
 
-                    <Label
-                        Text="Poster:"
-                        VerticalOptions="Center"
-                        HorizontalOptions="Center"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                    <Image
-                        Grid.Row="1"
-                        VerticalOptions="Start"
-                        Margin="0, 5, 0, 0"
-                        Source="{Binding PosterSource}"/>
+                    <Grid
+                        Margin="5"
+                        RowDefinitions="30,*">
 
+                        <Label
+                            Text="Poster:"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"/>
+
+                        <Image
+                            Grid.Row="1"
+                            VerticalOptions="Start"
+                            Margin="0, 5, 0, 0"
+                            Source="{Binding PosterSource}"/>
+
+                    </Grid>
+
+                    <Grid
+                        Grid.Column="1"
+                        Margin="5"
+                        RowDefinitions="30,*">
+
+                        <Button
+                            Text="Select New Image"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Padding="5"
+                            BackgroundColor="DarkGrey"
+                            Command="{Binding SelectImageCommand}"/>
+
+                        <Image
+                            Grid.Row="1"
+                            VerticalOptions="Start"
+                            Margin="0, 5, 0, 0"
+                            Source="{Binding NewPosterSource}"/>
+
+                    </Grid>
                 </Grid>
 
-                <Grid
+                <Label
+                    Grid.Row="5"
+                    Margin="15,0"
+                    Text="Trailer URL:"
+                    HorizontalOptions="Start" 
+                    VerticalOptions="Center"
+                    FontSize="16"/>
+
+                <Entry
+                    Grid.Row="5"
                     Grid.Column="1"
-                    Margin="5"
-                    RowDefinitions="30,*">
+                    Grid.ColumnSpan="2"
+                    Margin="15,0"
+                    Text="{Binding TrailerURL}"
+                    VerticalOptions="Center"/>
+
+                <Label
+                    Grid.Row="6"
+                    Margin="15,0"
+                    Text="Film Length:"
+                    HorizontalOptions="Start" 
+                    VerticalOptions="Center"
+                    FontSize="16"/>
+
+                <TimePicker
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Margin="15,0"
+                    VerticalOptions="Center"
+                    Time="{Binding RunTime}"
+                    Format="H\h m\m"
+                    />
+
+                <Label
+                    Grid.Row="7"
+                    Margin="15,0"
+                    Text="Date &amp; Time:"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    FontSize="16"/>
+
+                <DatePicker
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Margin="15,0"
+                    VerticalOptions="Center"
+                    Date="{Binding RunDate}"
+                    Format="dd/MM/yyyy"/>
+
+                <TimePicker
+                    Grid.Row="7"
+                    Grid.Column="2"
+                    Margin="15,0"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    Time="{Binding RunDateTime}"
+                    Format="HH:mm"/>
+
+                <Label
+                    Grid.Row="8"
+                    Margin="15,0"
+                    Text="Age Rating:"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    FontSize="16"/>
+
+                <Picker
+                    x:Name="age_rating_picker"
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    VerticalOptions="Center"
+                    SelectedItem="{Binding AgeRating}"
+                    SelectedIndex="{Binding AgeRatingIndex}"
+                    ItemsSource="{Binding AgeRatingItems}"
+                    ItemDisplayBinding="{Binding AgeRatingString}"
+                    Loaded="age_rating_picker_Loaded"/>
+
+                <Label
+                    Grid.Row="9"
+                    Margin="15,0"
+                    Text="Ticket URL:"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    FontSize="16"/>
+
+                <Entry
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Text="{Binding TicketURL}"
+                    VerticalOptions="Center"/>
+
+                <Label
+                    Grid.Row="10"
+                    Margin="15,0"
+                    Text="Genre:"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    FontSize="16"/>
+
+                <controls:MultiSelectionPicker
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    x:Name="genre_picker"
+                    BackgroundColor="White"
+                    VerticalOptions="Center"
+                    ItemsSource="{Binding GenresItems}"
+                    SelectedIndices="{Binding GenresIndices}"
+                    TextChanged="genre_picker_TextChanged"/>
+
+                <Label
+                    Grid.Row="11"
+                    Margin="15,0"
+                    Text="Premiere:"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    FontSize="16"/>
+
+                <CheckBox
+                    Grid.Row="11"
+                    Grid.Column="1"
+                    IsChecked="{Binding IsPremiere}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"/>
+
+                <Grid
+                    Grid.Row="12"
+                    Grid.ColumnSpan="3">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
                     <Button
-                        Text="Select New Image"
+                        Text="Delete"
+                        BackgroundColor="LightPink"
                         VerticalOptions="Center"
                         HorizontalOptions="Center"
-                        Padding="5"
-                        BackgroundColor="DarkGrey"
-                        Command="{Binding SelectImageCommand}"/>
+                        WidthRequest="200"
+                        Command="{Binding DeleteCommand}"/>
 
-                    <Image
-                        Grid.Row="1"
-                        VerticalOptions="Start"
-                        Margin="0, 5, 0, 0"
-                        Source="{Binding NewPosterSource}"/>
+                    <Button
+                        Grid.Column="1"
+                        Text="Save"
+                        BackgroundColor="LightSkyBlue"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        WidthRequest="200"
+                        Command="{Binding SaveCommand}"/>
 
                 </Grid>
-            </Grid>
 
-            <Label
-                Grid.Row="5"
-                Margin="15,0"
-                Text="Trailer URL:"
-                HorizontalOptions="Start" 
-                VerticalOptions="Center"
-                FontSize="16"/>
-
-            <Entry
-                Grid.Row="5"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                Margin="15,0"
-                Text="{Binding TrailerURL}"
-                VerticalOptions="Center"/>
-
-            <Label
-                Grid.Row="6"
-                Margin="15,0"
-                Text="Film Length:"
-                HorizontalOptions="Start" 
-                VerticalOptions="Center"
-                FontSize="16"/>
-
-            <TimePicker
-                Grid.Row="6"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                Margin="15,0"
-                VerticalOptions="Center"
-                Time="{Binding RunTime}"
-                Format="H\h m\m"
-                />
-
-            <Label
-                Grid.Row="7"
-                Margin="15,0"
-                Text="Date &amp; Time:"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                FontSize="16"/>
-
-            <DatePicker
-                Grid.Row="7"
-                Grid.Column="1"
-                Margin="15,0"
-                VerticalOptions="Center"
-                Date="{Binding RunDate}"
-                Format="dd/MM/yyyy"/>
-
-            <TimePicker
-                Grid.Row="7"
-                Grid.Column="2"
-                Margin="15,0"
-                VerticalOptions="Center"
-                HorizontalOptions="Start"
-                Time="{Binding RunDateTime}"
-                Format="HH:mm"/>
-
-            <Label
-                Grid.Row="8"
-                Margin="15,0"
-                Text="Age Rating:"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                FontSize="16"/>
-
-            <Picker
-                Grid.Row="8"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                VerticalOptions="Center"
-                SelectedItem="{Binding AgeRating}"
-                ItemsSource="{Binding AgeRatingItems}"
-                ItemDisplayBinding="{Binding AgeRatingString}"/>
-
-            <Label
-                Grid.Row="9"
-                Margin="15,0"
-                Text="Ticket URL:"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                FontSize="16"/>
-
-            <Entry
-                Grid.Row="9"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                Text="{Binding TicketURL}"
-                VerticalOptions="Center"/>
-
-            <Label
-                Grid.Row="10"
-                Margin="15,0"
-                Text="Genre:"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                FontSize="16"/>
-
-            <controls:MultiSelectionPicker
-                Grid.Row="10"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                x:Name="genre_picker"
-                BackgroundColor="White"
-                VerticalOptions="Center"
-                ItemsSource="{Binding GenresItems}"
-                SelectedIndices="{Binding GenresIndices}"/>
-
-            <Label
-                Grid.Row="11"
-                Margin="15,0"
-                Text="Premiere:"
-                HorizontalOptions="End"
-                VerticalOptions="Center"
-                FontSize="16"/>
-
-            <CheckBox
-                Grid.Row="11"
-                Grid.Column="1"
-                IsChecked="{Binding IsPremiere}"
-                VerticalOptions="Center"
-                HorizontalOptions="Start"/>
-
-            <Grid
-                Grid.Row="12"
-                Grid.ColumnSpan="3">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Button
-                    Text="Delete"
-                    BackgroundColor="LightPink"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center"
-                    WidthRequest="200"
-                    Command="{Binding DeleteCommand}"/>
-
-                <Button
-                    Grid.Column="1"
-                    Text="Save"
-                    BackgroundColor="LightSkyBlue"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center"
-                    WidthRequest="200"
-                    Command="{Binding SaveCommand}"/>
 
             </Grid>
+        </ScrollView>
 
-
-        </Grid>
-    </ScrollView>
+        <ActivityIndicator
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Color="{StaticResource Primary}"
+            IsRunning="{Binding Loading}"/>
+    </Grid>
     
 </ContentPage>

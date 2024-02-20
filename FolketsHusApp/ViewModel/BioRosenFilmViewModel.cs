@@ -28,7 +28,7 @@ public partial class BioRosenFilmViewModel : ObservableObject {
     public ObservableCollection<FilmObject> filmsObjects;
 
     [ObservableProperty]
-    public bool isSwipeViewEnabled, noObjects;
+    public bool isSwipeViewEnabled, noObjects, isRefreshing;
 
     public BioRosenFilmViewModel(IAPIService api) {
         this.api = api;
@@ -37,7 +37,7 @@ public partial class BioRosenFilmViewModel : ObservableObject {
         noObjects = true;
         FilmsObjects = new ObservableCollection<FilmObject>();
 
-        TrySetObjects();
+        //TrySetObjects();
     }
 
     void TrySetObjects() {
@@ -82,36 +82,42 @@ public partial class BioRosenFilmViewModel : ObservableObject {
 
     [RelayCommand]
     void Refresh() {
-        Debug.WriteLine("Try to refresh");
+        IsRefreshing = true;
+
         TrySetObjects();
+
+        IsRefreshing = false;
     }
 
     [RelayCommand]
-    async void Delete(FilmObject obj) {
-        Debug.WriteLine(obj.FilmName);
+    async Task Delete(FilmObject obj) {
+        bool result = await Shell.Current.DisplayAlert("Delete Film", "Are you sure you want to delete this film? This action cannot be undone.", "Yes, Delete It", "Cancel");
 
-        DeleteElementParams deleteElementParams = new DeleteElementParams {
-            ElementType = "film",
-            Id = obj._id ?? ""
-        };
+        if (result) {
+            DeleteElementParams deleteElementParams = new DeleteElementParams {
+                ElementType = "film",
+                Id = obj._id ?? ""
+            };
 
-        Response response = api.postProtected("/sendData", deleteElementParams);
+            Response response = api.postProtected("/sendData", deleteElementParams);
 
-        if (response.StatusCode != System.Net.HttpStatusCode.OK) {
-            await Application.Current.MainPage.DisplayAlert("Error", response.responseString, "OK");
-        } else {
+            if (response.StatusCode != System.Net.HttpStatusCode.OK) {
+                await Application.Current.MainPage.DisplayAlert("Error", response.responseString, "OK");
+            } else {
 
-            JObject responseJson = JObject.Parse(response.responseString);
+                JObject responseJson = JObject.Parse(response.responseString);
 
-            foreach (JProperty property in responseJson.Properties()) {
-                Debug.WriteLine(string.Format("Writing {0} data to memory", property.Name));
-                PreferencesStore.Delete(property.Name);
-                PreferencesStore.Set(property.Name, responseJson.GetValue(property.Name));
+                foreach (JProperty property in responseJson.Properties()) {
+                    Debug.WriteLine(string.Format("Writing {0} data to memory", property.Name));
+                    PreferencesStore.Delete(property.Name);
+                    PreferencesStore.Set(property.Name, responseJson.GetValue(property.Name));
+                }
+
+                Refresh();
             }
-
-            Refresh();
+        } else {
+            Debug.WriteLine("Deletion canceled");
         }
-
     }
 
     [RelayCommand]
@@ -125,7 +131,7 @@ public partial class BioRosenFilmViewModel : ObservableObject {
 
         //await Shell.Current.GoToAsync(nameof(FilmDetailPage), navigationParameter);
 
-        await Application.Current.MainPage.Navigation.PushModalAsync(new FilmDetailPage(filmObject));
+        await Application.Current.MainPage.Navigation.PushModalAsync(new FilmDetailPage(api, filmObject));
     }
 
 }
