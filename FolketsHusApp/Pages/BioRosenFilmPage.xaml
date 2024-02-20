@@ -46,21 +46,16 @@
             Command="{Binding RefreshCommand}"
             IsVisible="{Binding NoObjects}"/>
 
-        <ScrollView 
+        <RefreshView 
             Padding="5, 10"
             Grid.Row="1"
             Grid.RowSpan="3"
-            ZIndex="1">
-            <SwipeView Threshold="100">
-                <SwipeView.TopItems>
-                    <SwipeItems Mode="Execute">
-                        <SwipeItem
-                            IconImageSource="refresh.svg"
-                            BackgroundColor="Transparent"
-                            Command="{Binding RefreshCommand}"/>
-                    </SwipeItems>
-                </SwipeView.TopItems>
+            ZIndex="1"
+            IsRefreshing="{Binding IsRefreshing}"
+            Command="{Binding RefreshCommand}">
 
+            <ScrollView>
+                
                 <CollectionView
                     ItemsSource="{Binding FilmsObjects}"
                     SelectionMode="None">
@@ -124,11 +119,11 @@
                     </CollectionView.ItemTemplate>
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical"
-                                           ItemSpacing="12"/>
+                                            ItemSpacing="12"/>
                     </CollectionView.ItemsLayout>
                 </CollectionView>
-            </SwipeView>
-        </ScrollView>
+            </ScrollView>
+        </RefreshView>
 
     </Grid>
 </ContentPage>

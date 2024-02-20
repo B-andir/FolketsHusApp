@@ -28,7 +28,7 @@ public partial class BioRosenFilmViewModel : ObservableObject {
     public ObservableCollection<FilmObject> filmsObjects;
 
     [ObservableProperty]
-    public bool isSwipeViewEnabled, noObjects;
+    public bool isSwipeViewEnabled, noObjects, isRefreshing;
 
     public BioRosenFilmViewModel(IAPIService api) {
         this.api = api;
@@ -82,8 +82,11 @@ public partial class BioRosenFilmViewModel : ObservableObject {
 
     [RelayCommand]
     void Refresh() {
-        Debug.WriteLine("Try to refresh");
+        IsRefreshing = true;
+
         TrySetObjects();
+
+        IsRefreshing = false;
     }
 
     [RelayCommand]
